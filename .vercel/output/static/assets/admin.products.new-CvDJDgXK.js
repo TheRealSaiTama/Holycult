@@ -1,1 +1,0 @@
-import{t as e}from"./jsx-runtime-CZcjcDnw.js";import{t}from"./ProductForm-DKb5mTLO.js";var n=e();function r(){return(0,n.jsxs)(`div`,{className:`space-y-6`,children:[(0,n.jsxs)(`div`,{children:[(0,n.jsx)(`div`,{className:`section-num mb-2`,children:`/ CMS`}),(0,n.jsx)(`h1`,{className:`display-md`,children:`NEW PRODUCT`})]}),(0,n.jsx)(t,{})]})}export{r as component};

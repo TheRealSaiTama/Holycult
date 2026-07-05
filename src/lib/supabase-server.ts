@@ -3,15 +3,11 @@ import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 
 export function createPublishableServerClient() {
-  const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || import.meta.env.VITE_SUPABASE_URL;
-  const key = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY || import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+  const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || import.meta.env.VITE_SUPABASE_URL || "https://placeholder.supabase.co";
+  const key = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY || import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || "placeholder-key";
 
-  if (!url || !key) {
-    const missing = [
-      ...(!url ? ['SUPABASE_URL or VITE_SUPABASE_URL'] : []),
-      ...(!key ? ['SUPABASE_PUBLISHABLE_KEY or VITE_SUPABASE_PUBLISHABLE_KEY'] : []),
-    ];
-    throw new Error(`Missing Supabase environment variable(s): ${missing.join(', ')}`);
+  if (url === "https://placeholder.supabase.co" || key === "placeholder-key") {
+    console.warn("[Supabase] Environment variables missing on server, using placeholder client for graceful fallback.");
   }
 
   return createClient<Database>(

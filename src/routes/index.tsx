@@ -57,7 +57,7 @@ function Home() {
           <img
             src="/images/model_bg.png"
             alt="HOLYCULT Model"
-            className="w-full h-full object-cover opacity-15 mix-blend-multiply scale-105"
+            className="w-full h-full object-cover opacity-25 mix-blend-multiply scale-105"
             style={{ filter: "grayscale(1) contrast(1.15)" }}
           />
         </div>
