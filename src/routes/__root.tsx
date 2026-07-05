@@ -11,7 +11,6 @@ import { useEffect, type ReactNode } from "react";
 import { Toaster } from "sonner";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Nav } from "../components/holycult/Nav";
 import { Footer } from "../components/holycult/Footer";
 import { CartDrawer } from "../components/storefront/CartDrawer";
@@ -32,9 +31,6 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-hc-bg px-4">
