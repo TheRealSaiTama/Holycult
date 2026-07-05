@@ -5,7 +5,7 @@ import { SHIPPING_FLAT_CENTS } from "./site";
 
 // Public — surfaces the Razorpay Key ID for the browser checkout SDK.
 export const getRazorpayPublicKey = createServerFn({ method: "GET" }).handler(async () => {
-  const key = process.env.RAZORPAY_KEY_ID;
+  const key = process.env.RAZORPAY_KEY_ID || process.env.VITE_RAZORPAY_KEY_ID || import.meta.env.VITE_RAZORPAY_KEY_ID;
   if (!key) throw new Error("Razorpay key not configured");
   return { keyId: key };
 });
@@ -42,8 +42,8 @@ interface InitResult {
 }
 
 async function razorpayFetch(path: string, init?: RequestInit) {
-  const id = process.env.RAZORPAY_KEY_ID;
-  const secret = process.env.RAZORPAY_KEY_SECRET;
+  const id = process.env.RAZORPAY_KEY_ID || process.env.VITE_RAZORPAY_KEY_ID || import.meta.env.VITE_RAZORPAY_KEY_ID;
+  const secret = process.env.RAZORPAY_KEY_SECRET || process.env.VITE_RAZORPAY_KEY_SECRET || import.meta.env.VITE_RAZORPAY_KEY_SECRET;
   if (!id || !secret) throw new Error("Razorpay credentials missing");
   const auth = Buffer.from(`${id}:${secret}`).toString("base64");
   const res = await fetch(`https://api.razorpay.com/v1${path}`, {
@@ -157,7 +157,7 @@ export const initRazorpayCheckout = createServerFn({ method: "POST" })
       razorpayOrderId: rpOrder.id,
       amount: totalCents,
       currency,
-      keyId: process.env.RAZORPAY_KEY_ID!,
+      keyId: (process.env.RAZORPAY_KEY_ID || process.env.VITE_RAZORPAY_KEY_ID || import.meta.env.VITE_RAZORPAY_KEY_ID)!,
       refCode: order.ref_code,
     };
   });
@@ -172,7 +172,7 @@ const verifySchema = z.object({
 export const verifyRazorpayPayment = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => verifySchema.parse(i))
   .handler(async ({ data }) => {
-    const secret = process.env.RAZORPAY_KEY_SECRET;
+    const secret = process.env.RAZORPAY_KEY_SECRET || process.env.VITE_RAZORPAY_KEY_SECRET || import.meta.env.VITE_RAZORPAY_KEY_SECRET;
     if (!secret) throw new Error("Razorpay secret missing");
 
     const { createHmac, timingSafeEqual } = await import("node:crypto");
